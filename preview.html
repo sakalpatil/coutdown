@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to Success</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(
+                135deg,
+                #0f172a,
+                #1e293b,
+                #334155
+            );
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .circle1 {
+            width: 300px;
+            height: 300px;
+            background: #38bdf8;
+            top: -50px;
+            left: -50px;
+        }
+
+        .circle2 {
+            width: 350px;
+            height: 350px;
+            background: #8b5cf6;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 25px;
+            padding: 50px 30px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        .days {
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+            margin: 20px 0;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            margin-top: 10px;
+        }
+
+        .quote {
+            margin-top: 35px;
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            font-style: italic;
+        }
+
+        .target-date {
+             margin-top: 20px;
+    color: #5454f4;
+    letter-spacing: 1px;
+    font-size: 1.3rem;
+    font-weight: 800;
+        }
+
+        @media(max-width:768px){
+            .days{
+                font-size:5rem;
+            }
+
+            .title{
+                font-size:1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-circle circle1"></div>
+    <div class="bg-circle circle2"></div>
+
+    <div class="container">
+        <h4 class="title" id="header">
+            Only <span id="remainingDays">0</span> Days Remaining
+            Stay Focused & Work Hard 🚀
+        </h4>
+
+        <div class="days" id="bigCounter">0</div>
+
+        <div class="subtitle">
+            Every day counts. Your future self is watching.
+        </div>
+
+        <div class="target-date">
+            Target Date: 31 August
+        </div>
+
+        <div class="quote">
+            "Small progress every day leads to big results."
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+
+            const today = new Date();
+
+            const targetYear =
+                today.getMonth() > 7 ||
+                (today.getMonth() === 7 && today.getDate() > 31)
+                    ? today.getFullYear() + 1
+                    : today.getFullYear();
+
+            const targetDate = new Date(targetYear, 7, 31); // August = 7
+
+            const diffTime = targetDate - today;
+            const daysRemaining = Math.ceil(
+                diffTime / (1000 * 60 * 60 * 24)
+            );
+
+            document.getElementById("remainingDays").textContent =
+                daysRemaining;
+
+            document.getElementById("bigCounter").textContent =
+                daysRemaining;
+        }
+
+        updateCountdown();
+
+        // Refresh every hour
+        setInterval(updateCountdown, 60 * 60 * 1000);
+    </script>
+
+</body>
+</html>

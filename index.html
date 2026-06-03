@@ -128,7 +128,7 @@
     <div class="container">
         <h4 class="title" id="header">
             Only <span id="remainingDays">0</span> Days Remaining
-            Stay Focused & Work Hard 🚀
+            Stay Focused & Work Hard ðŸš€
         </h4>
 
         <div class="days" id="bigCounter">0</div>
@@ -147,34 +147,70 @@
     </div>
 
     <script>
-        function updateCountdown() {
+       function getTargetDate() {
 
-            const today = new Date();
+        const path = window.location.pathname.toLowerCase();
+        const params = new URLSearchParams(window.location.search);
+        const name = (params.get("name") || "").toLowerCase();
 
-            const targetYear =
-                today.getMonth() > 7 ||
-                (today.getMonth() === 7 && today.getDate() > 31)
-                    ? today.getFullYear() + 1
-                    : today.getFullYear();
+        const today = new Date();
+        let targetMonth = 7; // August (0-based)
+        let targetDay = 31;
 
-            const targetDate = new Date(targetYear, 7, 31); // August = 7
-
-            const diffTime = targetDate - today;
-            const daysRemaining = Math.ceil(
-                diffTime / (1000 * 60 * 60 * 24)
-            );
-
-            document.getElementById("remainingDays").textContent =
-                daysRemaining;
-
-            document.getElementById("bigCounter").textContent =
-                daysRemaining;
+        // Special case for Nitesh
+        if (path.includes("/nitesh") || name === "nitesh") {
+            targetMonth = 8; // September
+            targetDay = 30;  // September has only 30 days
         }
 
-        updateCountdown();
+        let targetYear = today.getFullYear();
 
-        // Refresh every hour
-        setInterval(updateCountdown, 60 * 60 * 1000);
+        const targetDate = new Date(
+            targetYear,
+            targetMonth,
+            targetDay
+        );
+
+        // If target date already passed, use next year
+        if (today > targetDate) {
+            targetYear++;
+        }
+
+        return new Date(
+            targetYear,
+            targetMonth,
+            targetDay
+        );
+    }
+
+    function updateCountdown() {
+
+        const today = new Date();
+        const targetDate = getTargetDate();
+
+        const diffTime = targetDate - today;
+
+        const daysRemaining = Math.ceil(
+            diffTime / (1000 * 60 * 60 * 24)
+        );
+
+        document.getElementById("remainingDays").textContent =
+            daysRemaining;
+
+        document.getElementById("bigCounter").textContent =
+            daysRemaining;
+
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get("name");
+
+        if (name) {
+            document.querySelector(".subtitle").textContent =
+                `Keep pushing, ${name}! Your goal is getting closer.`;
+        }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 60 * 1000);
     </script>
 
 </body>

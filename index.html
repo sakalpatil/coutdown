@@ -128,7 +128,7 @@
     <div class="container">
         <h4 class="title" id="header">
             Only <span id="remainingDays">0</span> Days Remaining
-            Stay Focused & Work Hard ðŸš€
+            Stay Focused & Work Hard
         </h4>
 
         <div class="days" id="bigCounter">0</div>
@@ -147,70 +147,74 @@
     </div>
 
     <script>
-       function getTargetDate() {
+      function getTargetDate() {
 
-        const path = window.location.pathname.toLowerCase();
-        const params = new URLSearchParams(window.location.search);
-        const name = (params.get("name") || "").toLowerCase();
+    const path = window.location.pathname.toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    const name = (params.get("name") || "").toLowerCase();
 
-        const today = new Date();
-        let targetMonth = 7; // August (0-based)
-        let targetDay = 31;
+    const today = new Date();
 
-        // Special case for Nitesh
-        if (path.includes("/nitesh") || name === "nitesh") {
-            targetMonth = 8; // September
-            targetDay = 30;  // September has only 30 days
-        }
+    let targetMonth = 7; // August
+    let targetDay = 31;
+    let targetDateLabel = "31 August";
 
-        let targetYear = today.getFullYear();
+    // Special case for Nitesh
+    if (path.includes("/nitesh") || name === "nitesh") {
+        targetMonth = 8; // September
+        targetDay = 30;
+        targetDateLabel = "30 September";
+    }
 
-        const targetDate = new Date(
-            targetYear,
-            targetMonth,
-            targetDay
-        );
+    let targetYear = today.getFullYear();
 
-        // If target date already passed, use next year
-        if (today > targetDate) {
-            targetYear++;
-        }
+    let targetDate = new Date(
+        targetYear,
+        targetMonth,
+        targetDay
+    );
 
-        return new Date(
+    if (today > targetDate) {
+        targetYear++;
+        targetDate = new Date(
             targetYear,
             targetMonth,
             targetDay
         );
     }
 
-    function updateCountdown() {
+    return {
+        targetDate,
+        targetDateLabel
+    };
+}
 
-        const today = new Date();
-        const targetDate = getTargetDate();
+function updateCountdown() {
 
-        const diffTime = targetDate - today;
+    const today = new Date();
 
-        const daysRemaining = Math.ceil(
-            diffTime / (1000 * 60 * 60 * 24)
-        );
+    const {
+        targetDate,
+        targetDateLabel
+    } = getTargetDate();
 
-        document.getElementById("remainingDays").textContent =
-            daysRemaining;
+    const diffTime = targetDate - today;
 
-        document.getElementById("bigCounter").textContent =
-            daysRemaining;
+    const daysRemaining = Math.ceil(
+        diffTime / (1000 * 60 * 60 * 24)
+    );
 
-        const params = new URLSearchParams(window.location.search);
-        const name = params.get("name");
+    document.getElementById("remainingDays").textContent =
+        daysRemaining;
 
-        if (name) {
-            document.querySelector(".subtitle").textContent =
-                `Keep pushing, ${name}! Your goal is getting closer.`;
-        }
-    }
+    document.getElementById("bigCounter").textContent =
+        daysRemaining;
 
-    updateCountdown();
-    setInterval(updateCountdown, 60 * 60 * 1000);
+    document.getElementById("targetDateText").textContent =
+        `Target Date: ${targetDateLabel}`;
+}
+
+updateCountdown();
     </script>
 
 </body>

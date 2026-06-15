@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to Success</title>
+    <title id="tittlebar"></title>
 
     <style>
         * {
@@ -206,9 +206,10 @@ function updateCountdown() {
 
     document.getElementById("remainingDays").textContent =
         daysRemaining;
-
-    document.getElementById("bigCounter").textContent =
+      document.getElementById("bigCounter").textContent =
         daysRemaining;
+
+    document.getElementById("tittlebar").textContent = `Countdown ${daysRemaining}`;
 
     document.getElementById("targetDateText").textContent =
         `Target Date: ${targetDateLabel}`;

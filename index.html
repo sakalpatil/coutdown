@@ -275,15 +275,16 @@
 
   function getCycle(today){
     let year = today.getFullYear();
-    let target = new Date(year, 7, 31); // August 31
-	let MidTarget = new Date(year, 7, 1); // August 1
-    let start  = new Date(year, 5, 1);  // June 1
+	let targetYear=2027;
+    let target = new Date(targetYear, 0, 5); // August 31
+	let MidTarget = new Date(year, 10, 29); // August 1
+    let start  = new Date(year, 9, 5);  // June 1
 
     if (today > target){
       year++;
-      target = new Date(year, 7, 31);
-	  MidTarget = new Date(year, 7, 1);
-      start  = new Date(year, 5, 1);
+   let target = new Date(targetYear, 0, 5); // August 31
+	let MidTarget = new Date(year, 10, 29); // August 1
+    let start  = new Date(year, 9, 5);  // June 1
     }
     return { start, target,MidTarget };
   }
